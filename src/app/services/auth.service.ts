@@ -15,4 +15,9 @@ export class AuthService {
   login(user: AuthData): Observable<string> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, user).pipe(map(AuthAdapter));
   }
+
+
+  register(user: AuthData): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/register`, user);
+  }
 }
