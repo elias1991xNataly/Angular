@@ -13,7 +13,7 @@ export class LocalManagerService {
     return localStorage.getItem(key);
   }
 
-  setElement(key: string, value: string): void {
+  setElement(key: LocalKeys, value: string): void {
     localStorage.setItem(key, value);
   }
 

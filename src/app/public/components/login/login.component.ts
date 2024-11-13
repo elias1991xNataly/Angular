@@ -1,6 +1,8 @@
+import { CustomInputComponent } from '@/app/components/custom-input';
 import { AuthService } from '@/app/services';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 
 
 interface LoginForm {
@@ -12,7 +14,7 @@ interface LoginForm {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CustomInputComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -26,5 +28,14 @@ export class LoginComponent {
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
   })
 
-  
+  async onSubmit() {
+    if (this.loginForm.valid) {
+      try {
+        await firstValueFrom(this.authService.login(this.loginForm.getRawValue()));
+      } catch (error) {
+
+      }
+    }
+    this.loginForm.reset();
+  }
 }
