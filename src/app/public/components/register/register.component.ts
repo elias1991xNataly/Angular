@@ -1,8 +1,10 @@
+import { appRoutes } from '@/app/app.routes';
 import { CustomInputComponent } from '@/app/components/custom-input';
 import { AuthService } from '@/app/services';
 import { passwordMatchValidator } from '@/app/validators';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -22,6 +24,7 @@ interface RegisterForm {
 })
 export class RegisterComponent {
   authService = inject(AuthService);
+  router = inject(Router);
   registerForm = new FormGroup<RegisterForm>(
     {
       email: new FormControl('', {
@@ -45,8 +48,8 @@ export class RegisterComponent {
   async onSubmit(): Promise<void> {
     if (this.registerForm.valid) {
       try {
-        await firstValueFrom(this.authService.register(this.registerForm.getRawValue()))
-
+        await firstValueFrom(this.authService.register(this.registerForm.getRawValue()));
+        this.router.navigate([appRoutes.public.login])
       } catch (err) {
         console.error(`can´t register`, err)
       }

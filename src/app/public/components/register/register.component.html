@@ -1,1 +1,29 @@
-<p>register works!</p>
+<div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <app-custom-input 
+        label="Email" 
+        [control]="$any(registerForm.get('email'))" 
+        placeHolder="Enter your email"
+        type="email"
+        errorMessage="please enter a valid email"
+
+        ></app-custom-input>
+        <app-custom-input   
+        label="Password"
+        [control]="$any(registerForm.get('password'))" 
+        placeHolder="Enter your password"
+        type="password"
+        errorMessage="please enter a valid password"
+        >   </app-custom-input>
+
+
+        <app-custom-input   
+        label="Confirm Password"
+        [control]="$any(registerForm.get('confirmPassword'))" 
+        placeHolder="Confirm your password"
+        type="password"
+        errorMessage="please enter a valid Confirm Password"
+        >   </app-custom-input>
+        <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+</div>
