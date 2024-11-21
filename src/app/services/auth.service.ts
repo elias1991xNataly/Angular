@@ -27,9 +27,9 @@ export class AuthService {
   }
 
 
-  register(user: AuthData): Observable<string> {
+  register(user: AuthData): Observable<void> {
     //cambiado post<void> a post<string> 
-    return this.http.post<string>(`${this.baseUrl}/register`, user);
+    return this.http.post<void>(`${this.baseUrl}/register`, user);
   }
 
   refreshToken(): Observable<any> {
