@@ -1,13 +1,14 @@
 export interface TokenContainer {
-    token:string;
+    accessToken: string;
+    refreshToken: string;
 }
 
-export interface LoginResponse extends TokenContainer{};
-export interface Auth extends TokenContainer{};
+export interface LoginResponse extends TokenContainer { };
+export interface Auth extends TokenContainer { };
 
 
 
-export interface AuthData{
-    email:string;
-    password:string;
+export interface AuthData {
+    email: string;
+    password: string;
 }

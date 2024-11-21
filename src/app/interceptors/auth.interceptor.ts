@@ -6,7 +6,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   
   const localManager =inject(LocalManagerService);
 
-  const token =localManager.getElement(LocalKeys.token);
+  const token =localManager.getElement(LocalKeys.accessToken);
 
   let headers = req.headers.set('Content-Type', 'application/json');
 
@@ -17,5 +17,5 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const authReq =req.clone({headers});
 
-  return next(authReq);
+  return next(authReq).pipe();
 };
