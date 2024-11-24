@@ -1,8 +1,8 @@
 import { appRoutes } from '@/app/app.routes';
 import { CustomInputComponent } from '@/app/components/custom-input';
-import { AuthService } from '@/app/services';
+import { AuthService, LocalManagerService } from '@/app/services';
 import { passwordMatchValidator } from '@/app/validators';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -25,6 +25,7 @@ interface RegisterForm {
 export class RegisterComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  localManager = inject(LocalManagerService);
   registerForm = new FormGroup<RegisterForm>(
     {
       email: new FormControl('', {
@@ -44,7 +45,11 @@ export class RegisterComponent {
     },
     { validators: passwordMatchValidator }
   )
-
+  constructor() {
+    afterNextRender(() => {
+      this.localManager.clearStorage();
+    })
+  }
   async onSubmit(): Promise<void> {
     if (this.registerForm.valid) {
       try {

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guard';
 
 export const appRoutes = {
     public: {
@@ -30,7 +31,7 @@ export const routes: Routes = [
     },
     {
         path: appRoutes.private.root,
-        canActivateChild: [],
+        canActivateChild: [authGuard],
         loadChildren: () => import('./private/private.routes').then(m => m.routes)
     },
     {
