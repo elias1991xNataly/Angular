@@ -1,7 +1,8 @@
 import { CustomInputComponent } from '@/app/components/custom-input';
-import { AuthService } from '@/app/services';
+import { AuthService, LocalManagerService } from '@/app/services';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 
@@ -21,12 +22,20 @@ interface LoginForm {
 })
 export class LoginComponent {
   authService = inject(AuthService);
+  router = inject(Router);
+  localManager = inject(LocalManagerService);
 
 
   loginForm = new FormGroup<LoginForm>({
     email: new FormControl('', { nonNullable: true, validators: [Validators.email, Validators.required] }),
     password: new FormControl('', { nonNullable: true, validators: [Validators.required] })
   })
+  
+
+
+  afterRender (){
+    this.localManager.clearStorage();
+  }
 
   async onSubmit() {
     if (this.loginForm.valid) {
