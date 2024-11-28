@@ -53,7 +53,11 @@ export class RegisterComponent {
   async onSubmit(): Promise<void> {
     if (this.registerForm.valid) {
       try {
-        await firstValueFrom(this.authService.register(this.registerForm.getRawValue()));
+        const formattedValue = {
+          email: this.registerForm.getRawValue().email,
+          password: this.registerForm.getRawValue().password
+        }
+        await firstValueFrom(this.authService.register(formattedValue));
         this.router.navigate([appRoutes.public.login])
       } catch (err) {
         console.error(`can´t register`, err)
